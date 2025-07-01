@@ -1,4 +1,5 @@
 # run.R
+# install.packages(c("plumber", "jsonlite", "dplyr", "readr"), repos = "https://cloud.r-project.org/")
 library(plumber)
 
 pr <- plumb("api.R")
@@ -7,12 +8,12 @@ pr$filter("cors", function(req, res) {
   res$setHeader("Access-Control-Allow-Origin", "*")
   res$setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
   res$setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization")
-  
+
   if (req$REQUEST_METHOD == "OPTIONS") {
     res$status <- 200
     return(list())
   }
-  
+
   plumber::forward()
 })
 
