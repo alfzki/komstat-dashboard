@@ -300,28 +300,39 @@ Dokumentasi ini memberikan pemahaman mendalam tentang struktur dan cara kerja pr
 
 ## 10. Konfigurasi Koneksi Frontend ↔ Backend
 
-### 10.1. **IMPORTANT: Masalah Konfigurasi yang Ditemukan**
+### 10.1. **IMPORTANT: Konfigurasi Koneksi API Sudah Dimigrasikan**
 
-⚠️ **PERINGATAN**: Ada inconsistency dalam konfigurasi API endpoint yang bisa menyebabkan masalah koneksi!
+✅ **SEMUA pemanggilan API di frontend kini sudah menggunakan environment variable `.env` (`REACT_APP_API_BASE`).**
 
-**Backend Server (Benar):**
+**Backend Server:**
 - **Host**: `127.0.0.1` 
 - **Port**: `8000`
 - **File konfigurasi**: `server/run.R` (line 19: `pr$run(port = 8000, host = "127.0.0.1")`)
 
-**Frontend API Calls (Inconsistent):**
+**Frontend API Calls (SUDAH KONSISTEN):**
+- Semua file frontend yang melakukan fetch ke backend kini menggunakan:
+  ```js
+  const API_BASE = process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000';
+  fetch(`${API_BASE}/endpoint`)
+  ```
+- Tidak ada lagi hardcoded `localhost:8000` atau `127.0.0.1:8000` di kode.
+- Konfigurasi alamat backend kini cukup diubah di file `.env` pada folder `frontend`:
+  ```env
+  REACT_APP_API_BASE=http://127.0.0.1:8000
+  ```
+- Setelah mengubah `.env`, restart development server agar perubahan terbaca.
 
-**✅ Menggunakan alamat BENAR (`127.0.0.1:8000`):**
-- `src/components/MainGrid.jsx` (lines 111, 246, 254)
-- `src/components/SessionsChart.tsx` (line 57)  
-- `src/components/useCountries.ts` (line 15)
+**Keuntungan:**
+- Lebih mudah deploy ke server manapun (cukup ubah `.env`)
+- Tidak perlu edit banyak file jika backend pindah alamat/port
+- Mengurangi risiko bug akibat inconsistency address/port
 
-**❌ Menggunakan alamat SALAH (`localhost:8000`):**
-- `src/components/MapScatterHeatChartandOther.jsx` (lines 41, 62)
-- `src/internals/data/gridData.jsx` (lines 145, 157)
-- `src/components/yoYChartAndGauge.jsx` (menggunakan environment variable dengan default `localhost:8000`)
+**Catatan:**
+- React (Create React App) sudah mendukung `.env` secara default, variabel harus diawali `REACT_APP_` agar bisa diakses di kode.
 
-### 10.2. File-file yang Melakukan API Calls
+---
+
+## 10.2. File-file yang Melakukan API Calls
 
 #### **MainGrid.jsx** - Komponen Utama Data Fetching
 **Lokasi API Calls:**

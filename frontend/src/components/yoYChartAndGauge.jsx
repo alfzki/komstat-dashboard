@@ -22,7 +22,7 @@ import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
 
 
 
-const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:8000';
+const API_BASE = process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000';
 
 const yearMarks = [
   { value: 1970, label: '1970' },

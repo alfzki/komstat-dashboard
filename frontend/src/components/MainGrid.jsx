@@ -29,9 +29,6 @@ import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import { deepOrange, deepPurple, purple } from '@mui/material/colors';
 
-
-
-
 // --- Dynamic Dashboard State and Fetch Logic ---
 import { useEffect, useState } from 'react';
 
@@ -46,6 +43,8 @@ const GAS_KEYS = [
 ];
 
 import { useRef } from 'react';
+
+const API_BASE = process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000';
 
 export default function MainGrid() {
   const [highlighted, setHighlighted] = React.useState(null);
@@ -108,7 +107,7 @@ export default function MainGrid() {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/countries');
+        const response = await fetch(`${API_BASE}/countries`);
         const data = await response.json();
         setCountries(data.countries || []);
       } catch (error) {
@@ -243,7 +242,7 @@ export default function MainGrid() {
     const loadData = async () => {
       try {
         // Fetch country code first
-        const countriesRes = await fetch('http://127.0.0.1:8000/countries');
+        const countriesRes = await fetch(`${API_BASE}/countries`);
         const countriesData = await countriesRes.json();
         const countryObj = countriesData.countries.find(c => c.name === country);
         const code = countryObj ? countryObj.code : 'WLD';
@@ -251,7 +250,7 @@ export default function MainGrid() {
         setCountryCode(code);
 
         // Fetch statistics only; growth will be calculated locally
-        const statsRes = await fetch(`http://127.0.0.1:8000/statistics?country_code=${code}&start_year=${yearRange[0]}&end_year=${yearRange[1]}`);
+        const statsRes = await fetch(`${API_BASE}/statistics?country_code=${code}&start_year=${yearRange[0]}&end_year=${yearRange[1]}`);
         const statsData = await statsRes.json();
         setStats(statsData);
 

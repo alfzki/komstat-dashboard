@@ -5,6 +5,8 @@ export interface CountryItem {
   code: string;
 }
 
+const API_BASE = process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000';
+
 export function useCountries() {
   const [countries, setCountries] = useState<CountryItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,7 @@ export function useCountries() {
 
   useEffect(() => {
     setLoading(true);
-    fetch('http://127.0.0.1:8000/countries')
+    fetch(`${API_BASE}/countries`)
       .then(res => res.json())
       .then(data => {
         if (data && Array.isArray(data.countries)) {

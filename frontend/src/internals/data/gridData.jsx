@@ -142,7 +142,7 @@ class EmissionDataManager {
     }
 
     try {
-      const codesRes = await fetch('http://localhost:8000/country-code-and-numeric.json');
+      const codesRes = await fetch(`${API_BASE}/country-code-and-numeric.json`);
       const codes = await codesRes.json();
       const countryMap = {};
       this.alpha3ToAlpha2 = {}; // Reset and populate the mapping
@@ -154,7 +154,7 @@ class EmissionDataManager {
         }
       });
 
-      const emissionsRes = await fetch('http://localhost:8000/global-complete-data.json');
+      const emissionsRes = await fetch(`${API_BASE}/global-complete-data.json`);
       const emissionsData = await emissionsRes.json();
 
       const transformed = [];

@@ -43,6 +43,8 @@ interface GHGEmissionsChartProps {
   yearRange: [number, number];
 }
 
+const API_BASE = process.env.REACT_APP_API_BASE || 'http://127.0.0.1:8000';
+
 export default function GHGEmissionsChart({ yearRange }: GHGEmissionsChartProps) {
   const theme = useTheme();
   const [gasData, setGasData] = useState<GasData[]>([]);
@@ -54,7 +56,7 @@ export default function GHGEmissionsChart({ yearRange }: GHGEmissionsChartProps)
     try {
       setLoading(true);
       // Mengambil data dari API yang sama dengan MainGrid
-      const response = await fetch(`http://127.0.0.1:8000/statistics?country_code=WLD&start_year=${yearRange[0]}&end_year=${yearRange[1]}`);
+      const response = await fetch(`${API_BASE}/statistics?country_code=WLD&start_year=${yearRange[0]}&end_year=${yearRange[1]}`);
       if (!response.ok) {
         throw new Error('Gagal mengambil data dari API');
       }
