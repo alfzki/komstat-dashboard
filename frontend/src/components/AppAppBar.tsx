@@ -40,7 +40,7 @@ export default function AppAppBar() {
 
   const navItems = [
     { label: 'Beranda', onClick: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
-    { label: 'Analitics', onClick: undefined },
+    { label: 'Analitics', onClick: () => window.open(process.env.REACT_APP_SHINY_BASE || 'http://127.0.0.1:3838', '_blank') },
     { label: 'Tentang Kami', onClick: () => {
         const el = document.getElementById('tentang-kami-section');
         if (el) {

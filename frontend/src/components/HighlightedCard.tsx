@@ -33,6 +33,7 @@ export default function HighlightedCard() {
           color="primary"
           endIcon={<ChevronRightRoundedIcon />}
           fullWidth={isSmallScreen}
+          onClick={() => window.open(process.env.REACT_APP_SHINY_BASE || 'http://127.0.0.1:3838', '_blank')}
         >
           Lihat
         </Button>
